@@ -30,6 +30,14 @@ app.get('/add', (req, res) => {
   res.render('add_post')
 })
 
+app.get('/posts/:id', async (req, res) => {
+  const id = req.params.id
+  const post = await Post.findById(id)
+  res.render('post', {
+    post,
+  })
+})
+
 app.post('/posts', async (req, res) => {
   await Post.create(req.body)
     .then(() => {
