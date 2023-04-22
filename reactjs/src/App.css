@@ -1,0 +1,13 @@
+.mainDiv {
+    display: flex;
+    background-color: gray;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    display: block;
+    margin: 20px;
+    padding: 5px 10px;
+}
