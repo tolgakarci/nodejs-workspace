@@ -55,6 +55,11 @@
       </div>
     </header>
 
+    <div class="text-center">
+      <a href="/posts/edit/<%= post._id %>" class="mr-5">Edit</a>
+      <a onclick="return confirm('Are you sure?')" href="/posts/delete/<%= post._id %>?_method=DELETE"
+        class="mr-5">Delete</a>
+    </div>
     <!-- Post Content -->
     <article>
       <div class="container">

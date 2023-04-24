@@ -3,51 +3,33 @@ const mongoose = require('mongoose')
 
 const ejs = require('ejs')
 const app = express()
-const Post = require('./models/Post')
+const methodOverride = require('method-override')
+
+const postControllers = require('./controllers/postControllers')
+const pageControllers = require('./controllers/pageControllers')
 
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+)
 
 const port = 3000
 
-const blog = { id: 1, title: 'Blog title', description: 'Blog description' }
+app.get('/', postControllers.getAllPosts)
+app.get('/posts/:id', postControllers.getPost)
+app.post('/posts', postControllers.createPost)
+app.put('/posts/edit/:id', postControllers.updatePost)
+app.delete('/posts/delete/:id', postControllers.deletePost)
 
-app.get('/', async (req, res) => {
-  const posts = await Post.find({})
-  res.render('index', {
-    posts,
-  })
-})
-
-app.get('/about', (req, res) => {
-  res.render('about')
-})
-
-app.get('/add', (req, res) => {
-  res.render('add_post')
-})
-
-app.get('/posts/:id', async (req, res) => {
-  const id = req.params.id
-  const post = await Post.findById(id)
-  res.render('post', {
-    post,
-  })
-})
-
-app.post('/posts', async (req, res) => {
-  await Post.create(req.body)
-    .then(() => {
-      console.log('Post created.')
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  res.redirect('/')
-})
+app.get('/about', pageControllers.getAboutPage)
+app.get('/posts/edit/:id', pageControllers.getEditPage)
+app.get('/add', pageControllers.getAddPage)
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda çalıştı.`)
