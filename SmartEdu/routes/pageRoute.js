@@ -10,5 +10,7 @@ router
   .get(redirectMiddleware, pageControllers.getRegisterPage)
 router.route('/login').get(redirectMiddleware, pageControllers.getLoginPage)
 router.route('/about').get(pageControllers.getAboutPage)
+router.route('/contact').get(pageControllers.getContactPage)
+router.route('/contact').post(pageControllers.sendEmail)
 
 module.exports = router
