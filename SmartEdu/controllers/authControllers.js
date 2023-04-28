@@ -24,7 +24,6 @@ exports.loginUser = async (req, res) => {
       if (user) {
         bcrypt.compare(password, user.password, (err, same) => {
           if (same) {
-            req.flash('success', 'User information is correct')
             req.session.userID = user._id
             res.status(200).redirect('/users/dashboard')
           } else {
@@ -50,6 +49,7 @@ exports.logoutUser = async (req, res) => {
 }
 
 exports.getDashboardPage = async (req, res) => {
+  const users = await User.find()
   const user = await User.findOne({ _id: req.session.userID }).populate(
     'courses'
   )
@@ -60,5 +60,19 @@ exports.getDashboardPage = async (req, res) => {
     user,
     categories,
     courses,
+    users,
   })
+}
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndRemove(req.params.id)
+    await Course.deleteMany({ user: req.params.id })
+    res.status(200).redirect('/users/dashboard')
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      err,
+    })
+  }
 }

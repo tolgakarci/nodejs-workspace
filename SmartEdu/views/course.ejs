@@ -47,11 +47,13 @@
 												<%= course.description %>
 											</blockquote>
 										</div>
-										<div class="blog-desc">
-											<blockquote class="default">
-												<%= course.category.name %>
-											</blockquote>
-										</div>
+										<% if(course.category){ %>
+											<div class="blog-desc">
+												<blockquote class="default">
+													<%= course.category.name %>
+												</blockquote>
+											</div>
+											<% } %>
 							</div>
 						</div>
 

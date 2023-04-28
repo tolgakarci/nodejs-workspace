@@ -35,5 +35,6 @@ router
   )
 router.route('/logout').get(authControllers.logoutUser)
 router.route('/dashboard').get(authMiddleware, authControllers.getDashboardPage)
+router.route('/:id').delete(authControllers.deleteUser)
 
 module.exports = router
