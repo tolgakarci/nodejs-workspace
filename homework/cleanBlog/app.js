@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const ejs = require('ejs')
 const app = express()
 const methodOverride = require('method-override')
+const cors = require('cors')
 
 const postControllers = require('./controllers/postControllers')
 const pageControllers = require('./controllers/pageControllers')
@@ -18,8 +19,9 @@ app.use(
     methods: ['POST', 'GET'],
   })
 )
+app.use(cors())
 
-const port = 3000
+const port = 5000
 
 app.get('/', postControllers.getAllPosts)
 app.get('/posts/:id', postControllers.getPost)
