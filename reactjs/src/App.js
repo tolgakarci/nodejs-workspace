@@ -1,12 +1,15 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createPost } from './redux/reducers/postSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+
 const App = () => {
   const dispatch = useDispatch()
+  const postStatus = useSelector((state) => state.post.status)
 
   const [title, setTitle] = useState('')
   const [detail, setDetail] = useState('')
+  const [status, setStatus] = useState('')
 
   const post = {
     title: title,
@@ -21,8 +24,23 @@ const App = () => {
 
   const sendData = () => {
     // fetch('http://localhost:5000/posts', requestOptions)
-    dispatch(createPost(post))
+    if (title.length > 3 && detail.length > 3) {
+      dispatch(createPost(post))
+      setTimeout(() => {
+        setStatus('')
+      }, 1000)
+    } else {
+      alert('Informations must contain at least 3 characters.')
+    }
   }
+
+  useEffect(() => {
+    setStatus(postStatus)
+    if (postStatus === 'succeeded') {
+      setTitle('')
+      setDetail('')
+    }
+  }, [postStatus])
 
   return (
     <div className='mainDiv'>
@@ -40,6 +58,9 @@ const App = () => {
           placeholder='detail'
         />
         <button onClick={sendData}>click !</button>
+        <span style={{ display: 'block', marginTop: '10px' }}>
+          {status.length && status !== 'idle' ? 'Status: ' + status : ''}
+        </span>
       </div>
     </div>
   )

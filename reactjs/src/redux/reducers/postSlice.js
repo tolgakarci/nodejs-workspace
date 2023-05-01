@@ -6,7 +6,7 @@ export const createPost = createAsyncThunk('posts/createPost', async (post) => {
   return response.data
 })
 
-const postsSlice = createSlice({
+const postSlice = createSlice({
   name: 'posts',
   initialState: {
     posts: [],
@@ -30,4 +30,4 @@ const postsSlice = createSlice({
   },
 })
 
-export default postsSlice.reducer
+export default postSlice.reducer
